@@ -6,10 +6,10 @@ El proyecto se centra en la extracción de datos mediante Web Scraping para gene
 
 ## 👥 Integrantes del Grupo
 
-| Rol | Usuario de GitHub | Iniciales |
-| :--- | :--- | :--- |
-| Integrante 1 | Javier-21 | J.A.R |
-| Integrante 2 | uca-uoc | O.C.A |
+Usuario de GitHub | Iniciales |
+:--- | :--- |
+Javier-21 | J.A.R |
+uca-uoc | O.C.A |
 
 ---
 # ACTUALIZAR MÁS TARDE
