@@ -12,7 +12,7 @@ El proyecto se centra en la extracción de datos mediante Web Scraping para gene
 | Integrante 2 | uca-uoc | O.C.A |
 
 ---
-
+# ACTUALIZAR MÁS TARDE
 ## 🛠️ Guía de Uso del Código
 
 El script principal, `scraper.py`, está desarrollado en Python y sigue una navegación autónoma para extraer los datos de detalle de cada sala individual.
@@ -39,7 +39,6 @@ Para ejecutar el script, necesita tener **Python [VERSIÓN UTILIZADA, ej: 3.9+]*
 
 ### 2. Ejecución del Script
 
-El script puede ejecutarse directamente desde la carpeta raíz.
 
 **Comando de Ejecución:**
 
