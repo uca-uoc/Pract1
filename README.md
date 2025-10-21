@@ -4,11 +4,14 @@ Este repositorio contiene los artefactos de la Práctica 1 de la asignatura **Ti
 
 El proyecto se centra en la extracción de datos mediante Web Scraping para generar un dataset estructurado y completo sobre la oferta de Escape Rooms disponibles en la sección de Barcelona del portal agregador **EscapeUp.es**.
 
-Carpeta / Archivo,Contenido
-README.md,"Documento de presentación, guía de uso y estructura del proyecto."
-requirements.txt,Lista de dependencias de Python necesarias para la ejecución. Este archivo se genera con pip freeze.
-/source,Contiene el código fuente (scraper.py) implementado para el proceso de Web Scraping y la lógica de extracción de datos.
-/dataset,"Contiene el dataset final (escape_rooms_barcelona.csv) resultante de la ejecución del script, en formato CSV."
+## Estructura del Repositorio
+El proyecto contiene los siguientes directorios:
+| Carpeta / Archivo | Contenido |
+| :--- | :--- |
+| **`README.md`** | Documento de presentación, guía de uso y estructura del proyecto. |
+| **`requirements.txt`** | Lista de dependencias de Python necesarias para la ejecución. |
+| **`/source`** | Contiene el código fuente (`scraper.py`) para el Web Scraping. |
+| **`/dataset`** | Contiene el dataset final generado en formato CSV. |
 
 # ACTUALIZAR MÁS TARDE
 ## 🛠️ Guía de Uso del Código
