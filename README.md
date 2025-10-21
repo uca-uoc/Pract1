@@ -1,6 +1,6 @@
 # 💾 Práctica 1: Extracción y Análisis de la Oferta de Escape Rooms en Barcelona
 
-Este repositorio contiene los artefactos de la Práctica 1 de la asignatura **Tipología y ciclo de vida de los datos** (Máster Universitario de Ciencia de Datos).
+Este repositorio contiene los artefactos de la Práctica 1 de la asignatura **Tipología y ciclo de vida de los datos**.
 
 El proyecto se centra en la extracción de datos mediante Web Scraping para generar un dataset estructurado y completo sobre la oferta de Escape Rooms disponibles en la sección de Barcelona del portal agregador **EscapeUp.es**.
 
