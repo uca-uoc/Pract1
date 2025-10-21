@@ -4,7 +4,7 @@ Este repositorio contiene los artefactos de la Práctica 1 de la asignatura **Ti
 
 El proyecto se centra en la extracción de datos mediante Web Scraping para generar un dataset estructurado y completo sobre la oferta de Escape Rooms disponibles en la sección de Barcelona del portal agregador **EscapeUp.es**.
 
-## Estructura del Repositorio
+## 📁 Estructura del Repositorio
 El proyecto contiene los siguientes directorios:
 | Carpeta / Archivo | Contenido |
 | :--- | :--- |
