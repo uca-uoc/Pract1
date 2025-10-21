@@ -1,4 +1,4 @@
-# 💾 Pract1: Extracción y Análisis de la Oferta de Escape Rooms en Barcelona
+# 💾 Práctica 1: Extracción y Análisis de la Oferta de Escape Rooms en Barcelona
 
 Este repositorio contiene los artefactos de la Práctica 1 de la asignatura **Tipología y ciclo de vida de los datos** (Máster Universitario de Ciencia de Datos).
 
@@ -15,7 +15,7 @@ uca-uoc | O.C.A |
 # ACTUALIZAR MÁS TARDE
 ## 🛠️ Guía de Uso del Código
 
-El script principal, `scraper.py`, está desarrollado en Python y sigue una navegación autónoma para extraer los datos de detalle de cada sala individual.
+El script principal, `scraper.py`, está desarrollado en "LENGUAJE, PYTHON?" y sigue una navegación autónoma para extraer los datos de detalle de cada sala individual.
 
 ### 1. Requisitos e Instalación de Dependencias
 
