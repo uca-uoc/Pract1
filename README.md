@@ -8,7 +8,6 @@ El proyecto se centra en la extracción de datos mediante Web Scraping para gene
 El proyecto contiene los siguientes directorios:
 | Carpeta / Archivo | Contenido |
 | :--- | :--- |
-| **`README.md`** | Documento de presentación, guía de uso y estructura del proyecto. |
 | **`requirements.txt`** | Lista de dependencias de Python necesarias para la ejecución. |
 | **`/source`** | Contiene el código fuente (`scraper.py`) para el Web Scraping. |
 | **`/dataset`** | Contiene el dataset final generado en formato CSV. |
