@@ -78,3 +78,29 @@ class Scraper():
         
         time.sleep(1)
         self.driver.quit()
+
+    def __search_escape_rooms(self):
+        """Busca todos los enlaces de escape rooms en la página de la ciudad."""
+        # Hacemos scroll hasta el final para cargar todos los elementos
+        SCROLL_PAUSE_TIME = 2
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+
+        while True:
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(SCROLL_PAUSE_TIME)
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break
+            last_height = new_height
+
+        # Extraemos todos los enlaces <a> que contienen 'escape-room'
+        a_tags = self.driver.find_elements(By.TAG_NAME, "a")
+        links = set()  # Evitamos duplicados
+
+        for a in a_tags:
+            href = a.get_attribute("href")
+            if href and "escape-room" in href:
+                links.add(href)
+
+        self.escape_room_links = sorted(links)  # Guardamos los enlaces
+
