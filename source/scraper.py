@@ -60,25 +60,6 @@ class Scraper():
     def get_city(self):
         return self.city
 
-    def scrape(self):
-        """Metodo que ejecuta el web scraping.
-        
-        Este metodo primero obtiene el HTML de la pagina web. Luego
-        busca la URL de la ciudad de la cual se quiere extraer informacion.
-
-        TODO: rellenar conforme se avanza en el proyecto
-
-        Finalmente, cerramos la pagina y la sesion para liberar recursos.
-        """
-        user_agent = self.driver.execute_script("return navigator.userAgent;")
-        print(user_agent)
-
-        self.driver.get(self.url)
-        self.__search_city()
-        
-        time.sleep(1)
-        self.driver.quit()
-
     def __search_escape_rooms(self):
         """Busca todos los enlaces de escape rooms en la página de la ciudad."""
         # Hacemos scroll hasta el final para cargar todos los elementos
@@ -103,4 +84,78 @@ class Scraper():
                 links.add(href)
 
         self.escape_room_links = sorted(links)  # Guardamos los enlaces
+
+
+    def extract_room_details(self):
+        """Extrae información detallada de cada escape room. FALTA DAR CON LOS DATOS"""
+        details = []
+        print(f"\nExtrayendo detalles de {len(self.escape_room_links)} escape rooms...\n")
+
+        for i, url in enumerate(self.escape_room_links, 1):
+            try:
+                self.driver.get(url)
+                time.sleep(1)
+
+                html = self.driver.page_source.lower()
+                info = {
+                    "url": url,
+                    "titulo": None,
+                    "precio": None,
+                    "jugadores": None,
+                    "duracion": None,
+                    "dificultad": None,
+                }
+
+                # # Título 
+                # try:
+                #     title_el = self.driver.find_element(By.TAG_NAME, "h1")
+                #     info["titulo"] = title_el.text.strip()
+                # except:
+                #     pass
+
+                # # Búsqueda simple por texto
+                # for line in html.splitlines():
+                #     if "precio" in line or "€" in line:
+                #         info["precio"] = line.strip()
+                #     if "jugadores" in line or "personas" in line:
+                #         info["jugadores"] = line.strip()
+                #     if "duración" in line or "minutos" in line:
+                #         info["duracion"] = line.strip()
+                #     if "dificultad" in line:
+                #         info["dificultad"] = line.strip()
+
+                details.append(info)
+                print(f"[{i}/{len(self.escape_room_links)}] {info['titulo'] or 'Sin título'} ✅")
+
+            except Exception as e:
+                print(f"⚠️ Error en {url}: {e}")
+
+        df = pd.DataFrame(details)
+        self.rooms_data = df
+        return df
+
+    def scrape(self):
+        """Método principal que ejecuta el web scraping.
+                
+        Este metodo primero obtiene el HTML de la pagina web. Luego
+        busca la URL de la ciudad de la cual se quiere extraer informacion.
+
+        TODO: rellenar conforme se avanza en el proyecto
+        """
+        print("Abriendo la página:", self.url)
+        self.driver.get(self.url)
+
+        try:
+            self.__search_city()
+        except Exception as e:
+            print("No se buscó ciudad específica, usamos la URL dada:", e)
+
+        time.sleep(1)
+        self.__search_escape_rooms()
+
+    def close(self):
+        self.driver.quit()
+        
+
+
 
