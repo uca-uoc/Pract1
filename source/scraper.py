@@ -86,53 +86,42 @@ class Scraper():
         self.escape_room_links = sorted(links)  # Guardamos los enlaces
 
 
+
     def extract_room_details(self):
-        """Extrae información detallada de cada escape room. FALTA DAR CON LOS DATOS"""
-        details = []
-        print(f"\nExtrayendo detalles de {len(self.escape_room_links)} escape rooms...\n")
+        """Abre cada enlace y extrae los detalles principales del escape room.
+        
+        
+        ****ME FALLAN TODOS MENOS LA DIRECCION, SEGUIRÉ INTENTANDO!!!!******
+        
+        
+        
+        """
+        for i, url in enumerate(self.escape_room_links):
+            print(f"[{i+1}/{len(self.escape_room_links)}] Extrayendo datos de: {url}")
+            self.driver.get(url)
+            time.sleep(1.5)  # Pequeña pausa para cargar contenido
 
-        for i, url in enumerate(self.escape_room_links, 1):
             try:
-                self.driver.get(url)
-                time.sleep(1)
+                container = self.driver.find_element(By.CLASS_NAME, "details_container")
 
-                html = self.driver.page_source.lower()
-                info = {
+                # Buscamos los distintos campos dentro del contenedor
+                def safe_find(class_name):
+                    try:
+                        return container.find_element(By.CLASS_NAME, class_name).text.strip()
+                    except:
+                        return None
+
+                data = {
                     "url": url,
-                    "titulo": None,
-                    "precio": None,
-                    "jugadores": None,
-                    "duracion": None,
-                    "dificultad": None,
+                    "direccion": safe_find("city"),
+                    "tipo": safe_find("type"),
+                    "tematica": safe_find("themes"),
+                    "duracion": safe_find("time"),
+                    "dificultad": safe_find("difficulty"),
+                    "jugadores": safe_find("players"),
+                    "edad": safe_find("age")
                 }
-
-                # # Título 
-                # try:
-                #     title_el = self.driver.find_element(By.TAG_NAME, "h1")
-                #     info["titulo"] = title_el.text.strip()
-                # except:
-                #     pass
-
-                # # Búsqueda simple por texto
-                # for line in html.splitlines():
-                #     if "precio" in line or "€" in line:
-                #         info["precio"] = line.strip()
-                #     if "jugadores" in line or "personas" in line:
-                #         info["jugadores"] = line.strip()
-                #     if "duración" in line or "minutos" in line:
-                #         info["duracion"] = line.strip()
-                #     if "dificultad" in line:
-                #         info["dificultad"] = line.strip()
-
-                details.append(info)
-                print(f"[{i}/{len(self.escape_room_links)}] {info['titulo'] or 'Sin título'} ✅")
-
-            except Exception as e:
-                print(f"⚠️ Error en {url}: {e}")
-
-        df = pd.DataFrame(details)
-        self.rooms_data = df
-        return df
+                self.rooms_data.append(data)
 
     def scrape(self):
         """Método principal que ejecuta el web scraping.
