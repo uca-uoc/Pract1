@@ -113,13 +113,7 @@ class Scraper():
 
                 data = {
                     "url": url,
-                    "direccion": safe_find("city"),
-                    "tipo": safe_find("type"),
-                    "tematica": safe_find("themes"),
-                    "duracion": safe_find("time"),
-                    "dificultad": safe_find("difficulty"),
-                    "jugadores": safe_find("players"),
-                    "edad": safe_find("age")
+                    "direccion": safe_find("city")
                 }
                 self.rooms_data.append(data)
 
