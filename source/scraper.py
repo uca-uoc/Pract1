@@ -62,10 +62,8 @@ class Scraper():
 
     def __search_escape_rooms(self):
         """Busca todos los enlaces de escape rooms en la página de la ciudad."""
-        # Hacemos scroll hasta el final para cargar todos los elementos
-        SCROLL_PAUSE_TIME = 2
+        SCROLL_PAUSE_TIME = 5
         last_height = self.driver.execute_script("return document.body.scrollHeight")
-
         while True:
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(SCROLL_PAUSE_TIME)
@@ -74,71 +72,71 @@ class Scraper():
                 break
             last_height = new_height
 
-        # Extraemos todos los enlaces <a> que contienen 'escape-room'
-        a_tags = self.driver.find_elements(By.TAG_NAME, "a")
-        links = set()  # Evitamos duplicados
-
-        for a in a_tags:
+        links = set()
+        for a in self.driver.find_elements(By.TAG_NAME, "a"):
             href = a.get_attribute("href")
-            if href and "escape-room" in href:
+            if href and "escape-room" in href and "blog" not in href:
                 links.add(href)
-
-        self.escape_room_links = sorted(links)  # Guardamos los enlaces
-
-
+        self.escape_room_links = sorted(links)
 
     def extract_room_details(self):
-        """Abre cada enlace y extrae los detalles principales del escape room.
-        
-        
-        ****ME FALLAN TODOS MENOS LA DIRECCION, SEGUIRÉ INTENTANDO!!!!******
-        
-        
-        
-        """
+        """Abre cada enlace y extrae los detalles principales del escape room."""
         for i, url in enumerate(self.escape_room_links):
             print(f"[{i+1}/{len(self.escape_room_links)}] Extrayendo datos de: {url}")
             self.driver.get(url)
-            time.sleep(1.5)  # Pequeña pausa para cargar contenido
+            time.sleep(1.5)
 
+            data = {"url": url}
+
+            # Extraemos el nombre desde el header
             try:
-                container = self.driver.find_element(By.CLASS_NAME, "details_container")
+                header = self.driver.find_element(By.CSS_SELECTOR, "div.game_container div:nth-child(2) h1 span.game")
+                name = header.text.strip()
+                if not name:
+                    continue
+                data["name"] = name
+            except:
+                continue  # si no encuentra el nombre, saltamos este escape room
 
-                # Buscamos los distintos campos dentro del contenedor
-                def safe_find(class_name):
-                    try:
-                        return container.find_element(By.CLASS_NAME, class_name).text.strip()
-                    except:
-                        return None
+            # Extraemos los detalles del contenedor principal
+            try:
+                container = self.driver.find_element(By.CSS_SELECTOR, ".details_container.details_component.orange")
+                details = container.find_elements(By.CSS_SELECTOR, ".detail")
+                for j, detail in enumerate(details, start=1):
+                    text = detail.text.strip()
+                    if text:
+                        data[f"extra_{j}"] = text
+            except:
+                pass
 
-                data = {
-                    "url": url,
-                    "direccion": safe_find("city")
-                }
-                self.rooms_data.append(data)
+            self.rooms_data.append(data)
+            self._export()  # guardamos solo si el escape room es válido
+
+        print(f"\n✅ Datos guardados en {self.csv_path} ({len(self.rooms_data)} filas válidas)")
+        return pd.DataFrame(self.rooms_data)
+    
+    def _export(self):
+        """Guarda los datos válidos en el CSV."""
+        df = pd.DataFrame(self.rooms_data)
+        # Eliminamos filas con valores None o NaN en 'name'
+        df = df.dropna(subset=["name"])
+        df = df[df["name"].str.strip() != ""]
+        df.to_csv(self.csv_path, index=False, encoding="utf-8-sig")
 
     def scrape(self):
-        """Método principal que ejecuta el web scraping.
-                
-        Este metodo primero obtiene el HTML de la pagina web. Luego
-        busca la URL de la ciudad de la cual se quiere extraer informacion.
-
-        TODO: rellenar conforme se avanza en el proyecto
-        """
+        """Ejecuta la búsqueda inicial de enlaces."""
         print("Abriendo la página:", self.url)
         self.driver.get(self.url)
-
         try:
             self.__search_city()
-        except Exception as e:
-            print("No se buscó ciudad específica, usamos la URL dada:", e)
-
+        except Exception:
+            print("No se buscó ciudad específica; se usa la URL directa.")
         time.sleep(1)
         self.__search_escape_rooms()
 
     def close(self):
         self.driver.quit()
-        
+
 
 
 
